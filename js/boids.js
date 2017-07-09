@@ -52,5 +52,11 @@ onWindowResize = function()
   camera.updateProjectionMatrix();
 }
 
+onWindowClick = function()
+{
+  console.log("click");
+}
+
 window.addEventListener('DOMContentLoaded', init);
 window.addEventListener('resize', onWindowResize);
+window.addEventListener('click', onWindowClick);
