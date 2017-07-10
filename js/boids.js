@@ -1,3 +1,12 @@
+var CreateSphere = function(scene, radius)
+{
+  var geometry = new THREE.SphereGeometry(radius);
+  var material = new THREE.MeshPhongMaterial({color: 0x00ffff});
+  var sphere = new THREE.Mesh(geometry, material);
+  sphere.position.z = -5;
+  scene.add(sphere);
+}
+
 var init = function()
 {
   renderer = new THREE.WebGLRenderer();
@@ -15,7 +24,9 @@ var init = function()
   var material = new THREE.MeshPhongMaterial({color: 0x00ffff});
   var box = new THREE.Mesh(geometry, material);
   box.position.z = -5;
-  scene.add(box);
+  //scene.add(box);
+
+  CreateSphere(scene, 0.1);
 
   var light = new THREE.DirectionalLight(0xffffff);
   scene.add(light);
