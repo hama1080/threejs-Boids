@@ -1,10 +1,19 @@
-var CreateSphere = function(scene, radius)
+var CreateSphere = function(radius)
 {
   var geometry = new THREE.SphereGeometry(radius);
   var material = new THREE.MeshPhongMaterial({color: 0x00ffff});
   var sphere = new THREE.Mesh(geometry, material);
   sphere.position.z = -5;
-  scene.add(sphere);
+  return sphere;
+}
+
+var CreateBox = function(x, y, z)
+{
+  var geometry = new THREE.BoxGeometry(x, y, z);
+  var material = new THREE.MeshPhongMaterial({color: 0x00ffff});
+  var box = new THREE.Mesh(geometry, material);
+  box.position.z = -5;
+  return box;
 }
 
 var init = function()
@@ -20,13 +29,11 @@ var init = function()
   var scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
 
-  var geometry = new THREE.BoxGeometry(1,1,1);
-  var material = new THREE.MeshPhongMaterial({color: 0x00ffff});
-  var box = new THREE.Mesh(geometry, material);
-  box.position.z = -5;
-  //scene.add(box);
+  var box = CreateBox(1,1,2);
+  var sphere = CreateSphere(0.1);
 
-  CreateSphere(scene, 0.1);
+  scene.add(box);
+  scene.add(sphere);
 
   var light = new THREE.DirectionalLight(0xffffff);
   scene.add(light);
