@@ -1,4 +1,5 @@
-var scene_object = [];
+  var scene;
+  var scene_object = [];
 
 var CreateSphere = function(radius)
 {
@@ -22,6 +23,7 @@ var UpdateObjectPosition = function()
 {
   for(var i=0; i != scene_object.length; i++)
   {
+    scene_object[i].position.x += 0.01;
     scene_object[i].rotation.x += 0.01;
   }
 }
@@ -36,7 +38,7 @@ var init = function()
   container = document.getElementById("container");
   container.appendChild(renderer.domElement);
 
-  var scene = new THREE.Scene();
+  scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
 
   scene_object.push(CreateBox(1, 1, 2));
@@ -85,6 +87,9 @@ onWindowResize = function()
 onWindowClick = function()
 {
   console.log("click");
+  var sphere = CreateSphere(0.1);
+  scene_object.push(sphere);
+  scene.add(sphere);
 }
 
 window.addEventListener('DOMContentLoaded', init);
