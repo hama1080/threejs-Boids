@@ -1,3 +1,5 @@
+var scene_object = [];
+
 var CreateSphere = function(radius)
 {
   var geometry = new THREE.SphereGeometry(radius);
@@ -29,11 +31,13 @@ var init = function()
   var scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
 
-  var box = CreateBox(1,1,2);
-  var sphere = CreateSphere(0.1);
+  scene_object.push(CreateBox(1, 1, 2));
+  scene_object.push(CreateSphere(0.1));
 
-  scene.add(box);
-  scene.add(sphere);
+for(var i = 0; i != scene_object.length;  i++)
+{
+  scene.add(scene_object[i]);
+}
 
   var light = new THREE.DirectionalLight(0xffffff);
   scene.add(light);
@@ -43,8 +47,11 @@ var init = function()
   var cnt = 0;
   var update = function(){
     requestAnimationFrame(update);
-    box.rotation.x += 0.01;
-    box.rotation.y += 0.01;
+
+    for(var i = 0; i != scene_object.length;  i++)
+    {
+      scene_object[i].rotation.x += 0.01;
+    }
     cnt++;
     renderer.render(scene,camera);
   }
