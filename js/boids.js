@@ -18,6 +18,14 @@ var CreateBox = function(x, y, z)
   return box;
 }
 
+var UpdateObjectPosition = function()
+{
+  for(var i=0; i != scene_object.length; i++)
+  {
+    scene_object[i].rotation.x += 0.01;
+  }
+}
+
 var init = function()
 {
   renderer = new THREE.WebGLRenderer();
@@ -48,10 +56,7 @@ for(var i = 0; i != scene_object.length;  i++)
   var update = function(){
     requestAnimationFrame(update);
 
-    for(var i = 0; i != scene_object.length;  i++)
-    {
-      scene_object[i].rotation.x += 0.01;
-    }
+    UpdateObjectPosition();
     cnt++;
     renderer.render(scene,camera);
   }
