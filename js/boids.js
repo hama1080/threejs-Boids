@@ -1,19 +1,19 @@
   var scene;
   var scene_object = [];
 
-var CreateSphere = function(radius)
+var CreateSphere = function(radius, color = {color: 0xffff00})
 {
   var geometry = new THREE.SphereGeometry(radius);
-  var material = new THREE.MeshPhongMaterial({color: 0x00ffff});
+  var material = new THREE.MeshPhongMaterial(color);
   var sphere = new THREE.Mesh(geometry, material);
   sphere.position.z = -5;
   return sphere;
 }
 
-var CreateBox = function(x, y, z)
+var CreateBox = function(x, y, z, color = {color: 0xffff00})
 {
   var geometry = new THREE.BoxGeometry(x, y, z);
-  var material = new THREE.MeshPhongMaterial({color: 0x00ffff});
+  var material = new THREE.MeshPhongMaterial(color);
   var box = new THREE.Mesh(geometry, material);
   box.position.z = -5;
   return box;
@@ -41,8 +41,8 @@ var init = function()
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
 
-  scene_object.push(CreateBox(1, 1, 2));
-  scene_object.push(CreateSphere(0.1));
+  scene_object.push(CreateBox(1, 1, 2, {color: 0x00ffff}));
+  scene_object.push(CreateSphere(0.1, {color: 0x00ffff}));
 
 for(var i = 0; i != scene_object.length;  i++)
 {
