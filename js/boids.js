@@ -1,5 +1,27 @@
-  var scene;
-  var scene_object = [];
+var scene;
+var scene_object = [];
+
+var BoidRule0 = function()
+{
+
+}
+
+var BoidRule1 = function()
+{
+
+}
+
+var BoidRule2 = function()
+{
+
+}
+
+var MoveObjects = function()
+{
+  for(var i = 0; i != scene_object.length; i++)
+  {
+  }
+}
 
 var CreateSphere = function(radius, color = {color: 0xffff00})
 {
