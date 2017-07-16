@@ -16,10 +16,27 @@ var BoidRule2 = function()
 
 }
 
-var MoveObjects = function()
+var InitializeBoids = function(kScreenWidth, kScreenHeight)
 {
-  for(var i = 0; i != scene_object.length; i++)
+  const kNbBoids = 10;
+  var boids = [];
+  for(var i = 0; i != kNbBoids; i++)
   {
+    boids[i] ={
+      x: Math.random() * kScreenWidth,
+      y: Math.random() * kScreenHeight,
+      vx: 0,
+      vy: 0
+    }
+  }
+  return boids;
+}
+
+var MoveObjects = function(boids)
+{
+  for(var i = 0; i != boids.length; i++)
+  {
+
   }
 }
 
