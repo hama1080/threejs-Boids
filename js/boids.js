@@ -1,9 +1,24 @@
 var scene;
 var scene_object = [];
 
+// rule0: a boid move to center of boids.
 var BoidRule0 = function(boids, move_index)
 {
+  var center = {x: 0, y: 0};
+  for(var i=0; i != boids.length; i++)
+  {
+    if(i != move_index)
+    {
+      center.x += boids[i].x;
+      center.y += boids[i].y;
+    }
+  }
+  center.x /= boids.length - 1;
+  center.y /= boids.length - 1;
 
+  const kDivisionNum = 100.0;
+  boids[move_index].vx += (center.x - boids[move_index].x) / kDivisionNum;
+  boids[move_index].vy += (center.y - boids[move_index].y) / kDivisionNum;
 }
 
 var BoidRule1 = function(boids, move_index)
