@@ -37,6 +37,14 @@ var MoveObjects = function(boids)
   for(var i = 0; i != boids.length; i++)
   {
 
+    // Inverse velocity when out of screen.
+    if( (boids[i].x < 0 && boids[i].vx < 0) || (boids[i].x > kScreenWidth && boids[i].vx > 0))
+      boids[i].vx *= -1;
+    if( (boids[i].y < 0 && boids[i].vy < 0) || (boids[i].y > kScreenHeight && boids[i].vy > 0))
+      boids[i].vy *= -1;
+
+    boids[i].x += boids[i].vx;
+    boids[i].y += boids[i].vy;
   }
 }
 
