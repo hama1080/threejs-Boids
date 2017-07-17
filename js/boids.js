@@ -66,7 +66,7 @@ var MoveObjects = function(boids, kScreenWidth, kScreenHeight)
   }
 }
 
-var CreateSphere = function(radius, color = {color: 0xffff00})
+var CreateSphere = function(radius, position_x = 0, position_y = 0, color = {color: 0xffff00})
 {
   var geometry = new THREE.SphereGeometry(radius);
   var material = new THREE.MeshPhongMaterial(color);
@@ -75,7 +75,7 @@ var CreateSphere = function(radius, color = {color: 0xffff00})
   return sphere;
 }
 
-var CreateBox = function(x, y, z, color = {color: 0xffff00})
+var CreateBox = function(x, y, z, position_x = 0, position_y = 0, color = {color: 0xffff00})
 {
   var geometry = new THREE.BoxGeometry(x, y, z);
   var material = new THREE.MeshPhongMaterial(color);
