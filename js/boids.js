@@ -1,17 +1,17 @@
 var scene;
 var scene_object = [];
 
-var BoidRule0 = function()
+var BoidRule0 = function(boids, move_index)
 {
 
 }
 
-var BoidRule1 = function()
+var BoidRule1 = function(boids, move_index)
 {
 
 }
 
-var BoidRule2 = function()
+var BoidRule2 = function(boids, move_index)
 {
 
 }
@@ -32,10 +32,13 @@ var InitializeBoids = function(kScreenWidth, kScreenHeight)
   return boids;
 }
 
-var MoveObjects = function(boids)
+var MoveObjects = function(boids, kScreenWidth, kScreenHeight)
 {
   for(var i = 0; i != boids.length; i++)
   {
+    BoidRule0(boids, i);
+    BoidRule1(boids, i);
+    BoidRule2(boids, i);
 
     // Inverse velocity when out of screen.
     if( (boids[i].x < 0 && boids[i].vx < 0) || (boids[i].x > kScreenWidth && boids[i].vx > 0))
