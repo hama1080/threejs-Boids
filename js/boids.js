@@ -1,5 +1,6 @@
 var scene;
 var scene_object = [];
+var boids;
 
 // rule0: a boid move to center of boids.
 var BoidRule0 = function(boids, move_index)
@@ -109,7 +110,7 @@ var init = function()
   scene.add(light);
   light.position.set(1,1,1);
 
-  var boids = InitializeBoids(kMaxPositionX, kMaxPositionY);
+  boids = InitializeBoids(kMaxPositionX, kMaxPositionY);
   for(var i = 0; i != boids.length; i++)
   {
     var sphere = CreateSphere(0.1, boids[i].x, boids[i].y, {color: 0x00ffff});
@@ -154,10 +155,10 @@ onWindowResize = function()
 
 onWindowClick = function()
 {
-  console.log("click");
   var sphere = CreateSphere(0.1);
   scene_object.push(sphere);
   scene.add(sphere);
+  boids.push({x: 0, y: 0, vx: 0, vy: 0});
 }
 
 window.addEventListener('DOMContentLoaded', init);
