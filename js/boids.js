@@ -112,22 +112,22 @@ var init = function()
   var boids = InitializeBoids(kMaxPositionX, kMaxPositionY);
   for(var i = 0; i != boids.length; i++)
   {
-    scene_object.push(CreateSphere(0.1, boids[i].x, boids[i].y, {color: 0x00ffff}));
-    console.log(boids[i].x);
+    var sphere = CreateSphere(0.1, boids[i].x, boids[i].y, {color: 0x00ffff});
+    scene_object.push(sphere);
+    scene.add(sphere);
   }
-
-for(var i = 0; i != scene_object.length;  i++)
-{
-  scene.add(scene_object[i]);
-}
-
   onWindowResize();
 
-  var cnt = 0;
   var update = function(){
     requestAnimationFrame(update);
 
-    cnt++;
+    MoveObjects(boids, kMaxPositionX, kMaxPositionY);
+    for(var i = 0; i != boids.length; i++)
+    {
+      scene_object[i].position.x = boids[i].x;
+      scene_object[i].position.y = boids[i].y;
+    }
+
     renderer.render(scene,camera);
   }
 
