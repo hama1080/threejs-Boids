@@ -31,15 +31,15 @@ var BoidRule2 = function(boids, move_index)
 
 }
 
-var InitializeBoids = function(kScreenWidth, kScreenHeight)
+var InitializeBoids = function(kMaxPositionX, kMaxPositionY)
 {
   const kNbBoids = 10;
   var boids = [];
   for(var i = 0; i != kNbBoids; i++)
   {
     boids[i] ={
-      x: Math.random() * kScreenWidth,
-      y: Math.random() * kScreenHeight,
+      x: Math.random() * kMaxPositionX,
+      y: Math.random() * kMaxPositionY,
       vx: 0,
       vy: 0
     }
@@ -47,7 +47,7 @@ var InitializeBoids = function(kScreenWidth, kScreenHeight)
   return boids;
 }
 
-var MoveObjects = function(boids, kScreenWidth, kScreenHeight)
+var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
 {
   for(var i = 0; i != boids.length; i++)
   {
@@ -56,9 +56,9 @@ var MoveObjects = function(boids, kScreenWidth, kScreenHeight)
     BoidRule2(boids, i);
 
     // Inverse velocity when out of screen.
-    if( (boids[i].x < 0 && boids[i].vx < 0) || (boids[i].x > kScreenWidth && boids[i].vx > 0))
+    if( (boids[i].x < 0 && boids[i].vx < 0) || (boids[i].x > kMaxPositionX && boids[i].vx > 0))
       boids[i].vx *= -1;
-    if( (boids[i].y < 0 && boids[i].vy < 0) || (boids[i].y > kScreenHeight && boids[i].vy > 0))
+    if( (boids[i].y < 0 && boids[i].vy < 0) || (boids[i].y > kMaxPositionY && boids[i].vy > 0))
       boids[i].vy *= -1;
 
     boids[i].x += boids[i].vx;
@@ -90,6 +90,9 @@ var CreateBox = function(x, y, z, position_x = 0, position_y = 0, color = {color
 
 var init = function()
 {
+  const kMaxPositionX = 10.0;
+  const kMaxPositionY = 10.0;
+
   renderer = new THREE.WebGLRenderer();
 
   var size = getWindowSize();
@@ -100,12 +103,13 @@ var init = function()
 
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
+  camera.position.set(kMaxPositionX / 2.0, kMaxPositionY / 2.0, 10);
 
   var light = new THREE.DirectionalLight(0xffffff);
   scene.add(light);
   light.position.set(1,1,1);
 
-  var boids = InitializeBoids(size.width, size.height);
+  var boids = InitializeBoids(kMaxPositionX, kMaxPositionY);
   for(var i = 0; i != boids.length; i++)
   {
     scene_object.push(CreateSphere(0.1, boids[i].x, boids[i].y, {color: 0x00ffff}));
