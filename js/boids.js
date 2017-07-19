@@ -29,6 +29,7 @@ var BoidRule1 = function(boids, move_index)
   {
     if(i != move_index)
     {
+      var distance = boids[i].pos.distanceTo(boids[move_index].pos);
     }
   }
 }
