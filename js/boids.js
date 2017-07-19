@@ -5,21 +5,22 @@ var boids;
 // rule0: a boid move to center of boids.
 var BoidRule0 = function(boids, move_index)
 {
-  var center = {x: 0, y: 0};
+  var center = new THREE.Vector3(0);
   for(var i=0; i != boids.length; i++)
   {
     if(i != move_index)
     {
-      center.x += boids[i].pos.x;
-      center.y += boids[i].pos.y;
+      center.add(boids[i].pos);
     }
   }
-  center.x /= boids.length - 1;
-  center.y /= boids.length - 1;
+  center.divideScalar(boids.length - 1)
 
+  // calculate offset using center position.
   const kDivisionNum = 100.0;
-  boids[move_index].vel.x += (center.x - boids[move_index].pos.x) / kDivisionNum;
-  boids[move_index].vel.y += (center.y - boids[move_index].pos.y) / kDivisionNum;
+  center.sub(boids[move_index].pos);
+  center.divideScalar(kDivisionNum);
+
+  boids[move_index].vel.add(center);
 }
 
 var BoidRule1 = function(boids, move_index)
