@@ -18,8 +18,8 @@ var BoidRule0 = function(boids, move_index)
   center.y /= boids.length - 1;
 
   const kDivisionNum = 100.0;
-  boids[move_index].vx += (center.x - boids[move_index].pos.x) / kDivisionNum;
-  boids[move_index].vy += (center.y - boids[move_index].pos.y) / kDivisionNum;
+  boids[move_index].vel.x += (center.x - boids[move_index].pos.x) / kDivisionNum;
+  boids[move_index].vel.y += (center.y - boids[move_index].pos.y) / kDivisionNum;
 }
 
 var BoidRule1 = function(boids, move_index)
@@ -45,8 +45,7 @@ var InitializeBoids = function(kMaxPositionX, kMaxPositionY)
   {
     boids[i] ={
       pos: new THREE.Vector3(Math.random() * kMaxPositionX, Math.random() * kMaxPositionY, 0),
-      vx: 0,
-      vy: 0
+      vel: new THREE.Vector3(0, 0, 0)
     }
   }
   return boids;
@@ -61,13 +60,13 @@ var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
     BoidRule2(boids, i);
 
     // Inverse velocity when out of screen.
-    if( (boids[i].pos.x < 0 && boids[i].vx < 0) || (boids[i].pos.x > kMaxPositionX && boids[i].vx > 0))
-      boids[i].vx *= -1;
-    if( (boids[i].pos.y < 0 && boids[i].vy < 0) || (boids[i].pos.y > kMaxPositionY && boids[i].vy > 0))
-      boids[i].vy *= -1;
+    if( (boids[i].pos.x < 0 && boids[i].vel.x < 0) || (boids[i].pos.x > kMaxPositionX && boids[i].vel.x > 0))
+      boids[i].vel.x *= -1;
+    if( (boids[i].pos.y < 0 && boids[i].vel.y < 0) || (boids[i].pos.y > kMaxPositionY && boids[i].vel.y > 0))
+      boids[i].vel.y *= -1;
 
-    boids[i].pos.x += boids[i].vx;
-    boids[i].pos.y += boids[i].vy;
+    boids[i].pos.x += boids[i].vel.x;
+    boids[i].pos.y += boids[i].vel.y;
   }
 }
 
@@ -162,7 +161,7 @@ onWindowClick = function()
   var sphere = CreateSphere(0.1);
   scene_object.push(sphere);
   scene.add(sphere);
-  boids.push({pos: new THREE.Vector3(0, 0, 0), vx: 0, vy: 0});
+  boids.push({pos: new THREE.Vector3(0, 0, 0), vel: new THREE.Vector3(0, 0, 0)});
 }
 
 window.addEventListener('DOMContentLoaded', init);
