@@ -10,21 +10,26 @@ var BoidRule0 = function(boids, move_index)
   {
     if(i != move_index)
     {
-      center.x += boids[i].x;
-      center.y += boids[i].y;
+      center.x += boids[i].pos.x;
+      center.y += boids[i].pos.y;
     }
   }
   center.x /= boids.length - 1;
   center.y /= boids.length - 1;
 
   const kDivisionNum = 100.0;
-  boids[move_index].vx += (center.x - boids[move_index].x) / kDivisionNum;
-  boids[move_index].vy += (center.y - boids[move_index].y) / kDivisionNum;
+  boids[move_index].vx += (center.x - boids[move_index].pos.x) / kDivisionNum;
+  boids[move_index].vy += (center.y - boids[move_index].pos.y) / kDivisionNum;
 }
 
 var BoidRule1 = function(boids, move_index)
 {
-
+  for(var i=0; i != boids.length; i++)
+  {
+    if(i != move_index)
+    {
+    }
+  }
 }
 
 var BoidRule2 = function(boids, move_index)
@@ -39,8 +44,7 @@ var InitializeBoids = function(kMaxPositionX, kMaxPositionY)
   for(var i = 0; i != kNbBoids; i++)
   {
     boids[i] ={
-      x: Math.random() * kMaxPositionX,
-      y: Math.random() * kMaxPositionY,
+      pos: new THREE.Vector3(Math.random() * kMaxPositionX, Math.random() * kMaxPositionY, 0),
       vx: 0,
       vy: 0
     }
@@ -57,13 +61,13 @@ var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
     BoidRule2(boids, i);
 
     // Inverse velocity when out of screen.
-    if( (boids[i].x < 0 && boids[i].vx < 0) || (boids[i].x > kMaxPositionX && boids[i].vx > 0))
+    if( (boids[i].pos.x < 0 && boids[i].vx < 0) || (boids[i].pos.x > kMaxPositionX && boids[i].vx > 0))
       boids[i].vx *= -1;
-    if( (boids[i].y < 0 && boids[i].vy < 0) || (boids[i].y > kMaxPositionY && boids[i].vy > 0))
+    if( (boids[i].pos.y < 0 && boids[i].vy < 0) || (boids[i].pos.y > kMaxPositionY && boids[i].vy > 0))
       boids[i].vy *= -1;
 
-    boids[i].x += boids[i].vx;
-    boids[i].y += boids[i].vy;
+    boids[i].pos.x += boids[i].vx;
+    boids[i].pos.y += boids[i].vy;
   }
 }
 
@@ -113,7 +117,7 @@ var init = function()
   boids = InitializeBoids(kMaxPositionX, kMaxPositionY);
   for(var i = 0; i != boids.length; i++)
   {
-    var sphere = CreateSphere(0.1, boids[i].x, boids[i].y, {color: 0x00ffff});
+    var sphere = CreateSphere(0.1, boids[i].pos.x, boids[i].pos.y, {color: 0x00ffff});
     scene_object.push(sphere);
     scene.add(sphere);
   }
@@ -125,8 +129,8 @@ var init = function()
     MoveObjects(boids, kMaxPositionX, kMaxPositionY);
     for(var i = 0; i != boids.length; i++)
     {
-      scene_object[i].position.x = boids[i].x;
-      scene_object[i].position.y = boids[i].y;
+      scene_object[i].position.x = boids[i].pos.x;
+      scene_object[i].position.y = boids[i].pos.y;
     }
 
     renderer.render(scene,camera);
@@ -158,7 +162,7 @@ onWindowClick = function()
   var sphere = CreateSphere(0.1);
   scene_object.push(sphere);
   scene.add(sphere);
-  boids.push({x: 0, y: 0, vx: 0, vy: 0});
+  boids.push({pos: new THREE.Vector3(0, 0, 0), vx: 0, vy: 0});
 }
 
 window.addEventListener('DOMContentLoaded', init);
