@@ -33,8 +33,8 @@ var BoidRule1 = function(boids, move_index)
       const kDistanceMin = 0.05;
       if(distance < kDistanceMin)
       {
-        var diff = boids[i].pos;
-        diff.sub(boids[move_index].pos);
+        var diff = new THREE.Vector3();
+        diff.subVectors(boids[i].pos, boids[move_index].pos)
         boids[move_index].vel.sub(diff);
       }
     }
@@ -48,7 +48,7 @@ var BoidRule2 = function(boids, move_index)
 
 var InitializeBoids = function(kMaxPositionX, kMaxPositionY)
 {
-  const kNbBoids = 10;
+  const kNbBoids = 30;
   var boids = [];
   for(var i = 0; i != kNbBoids; i++)
   {
@@ -68,6 +68,15 @@ var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
     BoidRule1(boids, i);
     BoidRule2(boids, i);
 
+    //Limit speed
+    var boid = boids[i];
+    var speed = boid.vel.length();
+    const kMaxSpeed = 0.1;
+    if(speed > kMaxSpeed)
+    {
+        var r = kMaxSpeed / speed;
+        boid.vel.multiplyScalar(r);
+    }
     // Inverse velocity when out of screen.
     if( (boids[i].pos.x < 0 && boids[i].vel.x < 0) || (boids[i].pos.x > kMaxPositionX && boids[i].vel.x > 0))
       boids[i].vel.x *= -1;
