@@ -16,7 +16,7 @@ var BoidRule0 = function(boids, move_index)
   center.divideScalar(boids.length - 1)
 
   // calculate offset using center position.
-  const kDivisionNum = 100.0;
+  const kDivisionNum = 1000.0;
   center.sub(boids[move_index].pos);
   center.divideScalar(kDivisionNum);
 
@@ -30,6 +30,13 @@ var BoidRule1 = function(boids, move_index)
     if(i != move_index)
     {
       var distance = boids[i].pos.distanceTo(boids[move_index].pos);
+      const kDistanceMin = 0.05;
+      if(distance < kDistanceMin)
+      {
+        var diff = boids[i].pos;
+        diff.sub(boids[move_index].pos);
+        boids[move_index].vel.sub(diff);
+      }
     }
   }
 }
