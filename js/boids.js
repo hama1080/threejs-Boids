@@ -96,30 +96,25 @@ var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
     if( (boids[i].pos.y < 0 && boids[i].vel.y < 0) || (boids[i].pos.y > kMaxPositionY && boids[i].vel.y > 0))
       boids[i].vel.y *= -1;
 
-    boids[i].pos.x += boids[i].vel.x;
-    boids[i].pos.y += boids[i].vel.y;
+    boids[i].pos.add(boids[i].vel);
   }
 }
 
-var CreateSphere = function(radius, position_x = 0, position_y = 0, color = {color: 0xffff00})
+var CreateSphere = function(radius, position, color = {color: 0xffff00})
 {
   var geometry = new THREE.SphereGeometry(radius);
   var material = new THREE.MeshPhongMaterial(color);
   var sphere = new THREE.Mesh(geometry, material);
-  sphere.position.x = position_x;
-  sphere.position.y = position_y;
-  sphere.position.z = -5;
+  sphere.position = position;
   return sphere;
 }
 
-var CreateBox = function(x, y, z, position_x = 0, position_y = 0, color = {color: 0xffff00})
+var CreateBox = function(x, y, z, position, color = {color: 0xffff00})
 {
   var geometry = new THREE.BoxGeometry(x, y, z);
   var material = new THREE.MeshPhongMaterial(color);
   var box = new THREE.Mesh(geometry, material);
-  sphere.position.x = position_x;
-  sphere.position.y = position_y;
-  box.position.z = -5;
+  box.position = position;
   return box;
 }
 
@@ -138,7 +133,7 @@ var init = function()
 
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
-  camera.position.set(kMaxPositionX / 2.0, kMaxPositionY / 2.0, 10);
+  camera.position.set(kMaxPositionX / 2.0, kMaxPositionY / 2.0, 15);
 
   var light = new THREE.DirectionalLight(0xffffff);
   scene.add(light);
@@ -147,7 +142,7 @@ var init = function()
   boids = InitializeBoids(kMaxPositionX, kMaxPositionY);
   for(var i = 0; i != boids.length; i++)
   {
-    var sphere = CreateSphere(0.1, boids[i].pos.x, boids[i].pos.y, {color: 0x00ffff});
+    var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff});
     scene_object.push(sphere);
     scene.add(sphere);
   }
