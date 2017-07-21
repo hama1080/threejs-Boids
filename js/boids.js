@@ -16,7 +16,7 @@ var BoidRule0 = function(boids, move_index)
   center.divideScalar(boids.length - 1)
 
   // calculate offset using center position.
-  const kDivisionNum = 1000.0;
+  const kDivisionNum = 100.0;
   center.sub(boids[move_index].pos);
   center.divideScalar(kDivisionNum);
 
@@ -30,7 +30,7 @@ var BoidRule1 = function(boids, move_index)
     if(i != move_index)
     {
       var distance = boids[i].pos.distanceTo(boids[move_index].pos);
-      const kDistanceMin = 0.05;
+      const kDistanceMin = 0.1;
       if(distance < kDistanceMin)
       {
         var diff = new THREE.Vector3();
@@ -43,7 +43,20 @@ var BoidRule1 = function(boids, move_index)
 
 var BoidRule2 = function(boids, move_index)
 {
-
+  var mean_velocity = new THREE.Vector3(0);
+  for(var i = 0; i != boids.length; i++)
+  {
+    if(i != move_index)
+    {
+      mean_velocity.add(boids[i].vel);
+    }
+  }
+  const kDivisionNum = 10.0;
+  mean_velocity.divideScalar(boids.length - 1);
+  var diff = new THREE.Vector3();
+  diff.subVectors(mean_velocity, boids[move_index].vel);
+  diff.divideScalar(kDivisionNum);
+  boids[move_index].vel.add(diff);
 }
 
 var InitializeBoids = function(kMaxPositionX, kMaxPositionY)
@@ -71,7 +84,7 @@ var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
     //Limit speed
     var boid = boids[i];
     var speed = boid.vel.length();
-    const kMaxSpeed = 0.1;
+    const kMaxSpeed = 0.5;
     if(speed > kMaxSpeed)
     {
         var r = kMaxSpeed / speed;
