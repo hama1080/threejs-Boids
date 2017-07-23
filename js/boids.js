@@ -23,6 +23,7 @@ var BoidRule0 = function(boids, move_index)
   boids[move_index].vel.add(center);
 }
 
+// rule1: a boid keep the constant distance between the other boid.
 var BoidRule1 = function(boids, move_index)
 {
   for(var i=0; i != boids.length; i++)
@@ -41,6 +42,7 @@ var BoidRule1 = function(boids, move_index)
   }
 }
 
+// rule2: a boid keep his velocity to mean velocity of boids
 var BoidRule2 = function(boids, move_index)
 {
   var mean_velocity = new THREE.Vector3(0);
