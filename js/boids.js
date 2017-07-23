@@ -9,9 +9,7 @@ var BoidRule0 = function(boids, move_index)
   for(var i=0; i != boids.length; i++)
   {
     if(i != move_index)
-    {
       center.add(boids[i].pos);
-    }
   }
   center.divideScalar(boids.length - 1)
 
@@ -26,12 +24,12 @@ var BoidRule0 = function(boids, move_index)
 // rule1: a boid keep the constant distance between the other boid.
 var BoidRule1 = function(boids, move_index)
 {
+  const kDistanceMin = 0.1;
   for(var i=0; i != boids.length; i++)
   {
     if(i != move_index)
     {
       var distance = boids[i].pos.distanceTo(boids[move_index].pos);
-      const kDistanceMin = 0.1;
       if(distance < kDistanceMin)
       {
         var diff = new THREE.Vector3();
@@ -64,7 +62,7 @@ var BoidRule2 = function(boids, move_index)
 var InitializeBoids = function(kMaxPositionX, kMaxPositionY)
 {
   const kNbBoids = 30;
-  var boids = [];
+  boids = [];
   for(var i = 0; i != kNbBoids; i++)
   {
     boids[i] ={
@@ -72,7 +70,6 @@ var InitializeBoids = function(kMaxPositionX, kMaxPositionY)
       vel: new THREE.Vector3(0, 0, 0)
     }
   }
-  return boids;
 }
 
 var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
@@ -141,7 +138,7 @@ var init = function()
   scene.add(light);
   light.position.set(1,1,1);
 
-  boids = InitializeBoids(kMaxPositionX, kMaxPositionY);
+  InitializeBoids(kMaxPositionX, kMaxPositionY);
   for(var i = 0; i != boids.length; i++)
   {
     var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff});
@@ -150,19 +147,17 @@ var init = function()
   }
   onWindowResize();
 
+  //simulation loop
   var update = function(){
     requestAnimationFrame(update);
-
     MoveObjects(boids, kMaxPositionX, kMaxPositionY);
     for(var i = 0; i != boids.length; i++)
     {
       scene_object[i].position.x = boids[i].pos.x;
       scene_object[i].position.y = boids[i].pos.y;
     }
-
     renderer.render(scene,camera);
   }
-
   update();
 }
 
@@ -186,7 +181,7 @@ onWindowResize = function()
 
 onWindowClick = function()
 {
-  var sphere = CreateSphere(0.1);
+  var sphere = CreateSphere(0.15);
   scene_object.push(sphere);
   scene.add(sphere);
   boids.push({pos: new THREE.Vector3(0, 0, 0), vel: new THREE.Vector3(0, 0, 0)});
