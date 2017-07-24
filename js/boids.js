@@ -59,20 +59,20 @@ var BoidRule2 = function(boids, move_index)
   boids[move_index].vel.add(diff);
 }
 
-var InitializeBoids = function(kMaxPositionX, kMaxPositionY)
+var InitializeBoids = function(MaxPosition)
 {
   const kNbBoids = 30;
   boids = [];
   for(var i = 0; i != kNbBoids; i++)
   {
     boids[i] ={
-      pos: new THREE.Vector3(Math.random() * kMaxPositionX, Math.random() * kMaxPositionY, 0),
+      pos: new THREE.Vector3(Math.random() * MaxPosition.x, Math.random() * MaxPosition.y, Math.random() * MaxPosition.z),
       vel: new THREE.Vector3(0, 0, 0)
     }
   }
 }
 
-var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
+var MoveObjects = function(boids, kMaxPosition)
 {
   for(var i = 0; i != boids.length; i++)
   {
@@ -90,10 +90,12 @@ var MoveObjects = function(boids, kMaxPositionX, kMaxPositionY)
         boid.vel.multiplyScalar(r);
     }
     // Inverse velocity when out of screen.
-    if( (boids[i].pos.x < 0 && boids[i].vel.x < 0) || (boids[i].pos.x > kMaxPositionX && boids[i].vel.x > 0))
+    if( (boids[i].pos.x < 0 && boids[i].vel.x < 0) || (boids[i].pos.x > kMaxPosition.x && boids[i].vel.x > 0))
       boids[i].vel.x *= -1;
-    if( (boids[i].pos.y < 0 && boids[i].vel.y < 0) || (boids[i].pos.y > kMaxPositionY && boids[i].vel.y > 0))
+    if( (boids[i].pos.y < 0 && boids[i].vel.y < 0) || (boids[i].pos.y > kMaxPosition.y && boids[i].vel.y > 0))
       boids[i].vel.y *= -1;
+    if( (boids[i].pos.z < 0 && boids[i].vel.z < 0) || (boids[i].pos.z > kMaxPosition.z && boids[i].vel.z > 0))
+      boids[i].vel.z *= -1;
 
     boids[i].pos.add(boids[i].vel);
   }
@@ -119,8 +121,7 @@ var CreateBox = function(x, y, z, position, color = {color: 0xffff00})
 
 var init = function()
 {
-  const kMaxPositionX = 10.0;
-  const kMaxPositionY = 10.0;
+  const kMaxPosition = new THREE.Vector3(10.0, 10.0, 5.0);
 
   renderer = new THREE.WebGLRenderer();
 
@@ -132,13 +133,13 @@ var init = function()
 
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
-  camera.position.set(kMaxPositionX / 2.0, kMaxPositionY / 2.0, 15);
+  camera.position.set(kMaxPosition.x / 2.0, kMaxPosition.y / 2.0, 15);
 
   var light = new THREE.DirectionalLight(0xffffff);
   scene.add(light);
   light.position.set(1,1,1);
 
-  InitializeBoids(kMaxPositionX, kMaxPositionY);
+  InitializeBoids(kMaxPosition);
   for(var i = 0; i != boids.length; i++)
   {
     var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff});
@@ -150,11 +151,12 @@ var init = function()
   //simulation loop
   var update = function(){
     requestAnimationFrame(update);
-    MoveObjects(boids, kMaxPositionX, kMaxPositionY);
+    MoveObjects(boids, kMaxPosition);
     for(var i = 0; i != boids.length; i++)
     {
       scene_object[i].position.x = boids[i].pos.x;
       scene_object[i].position.y = boids[i].pos.y;
+      scene_object[i].position.z = boids[i].pos.z;
     }
     renderer.render(scene,camera);
   }
@@ -181,7 +183,7 @@ onWindowResize = function()
 
 onWindowClick = function()
 {
-  var sphere = CreateSphere(0.15);
+  var sphere = CreateSphere(0.1);
   scene_object.push(sphere);
   scene.add(sphere);
   boids.push({pos: new THREE.Vector3(0, 0, 0), vel: new THREE.Vector3(0, 0, 0)});
