@@ -1,10 +1,11 @@
 # threejs-Boids
-Imprement "Boids" program on three.js.
+Imprement "Boids" program on three.js.  
+Boids is an artificial life program developed by Craig Reynolds in 1986, which simulates the flocking behavior of birds.[wikipedia](https://en.wikipedia.org/wiki/Boids)  
 
-Three simple rules.
-
-Rule1:
-
-Rule2:
-
-Rule3:
+The object(bird) follow three simple rules.  
+*Rule1:Cohesion*  
+The object move towards the average position of flock.  
+*Rule2:Separation*  
+The object avoid other object.  
+*Rule3:Alignment*
+The object move towards the average heading of flock.  
