@@ -142,7 +142,12 @@ var init = function()
   InitializeBoids(kMaxPosition);
   for(var i = 0; i != boids.length; i++)
   {
-    var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff});
+    var r = Math.floor(Math.random()*255);
+    var g = Math.floor(Math.random()*255);
+    var b = Math.floor(Math.random()*255);
+    var rgb = "rgb(" + r + ", " + g + ", " + b + ")";
+    var sphere = CreateSphere(0.1, boids[i].pos, {color: rgb});
+    //var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff}); 
     scene_object.push(sphere);
     scene.add(sphere);
   }
