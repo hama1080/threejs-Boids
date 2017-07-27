@@ -1,3 +1,9 @@
+class Boids{
+  constructor{
+    this.boids = [];
+  }
+}
+
 var scene;
 var scene_object = [];
 var boids;
