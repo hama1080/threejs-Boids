@@ -1,5 +1,5 @@
 class Boids{
-  constructor{
+  constructor(){
     this.boids = [];
   }
 }
@@ -127,6 +127,7 @@ var CreateBox = function(x, y, z, position, color = {color: 0xffff00})
 
 var init = function()
 {
+  var boids_inst = new Boids();
   const kMaxPosition = new THREE.Vector3(10.0, 10.0, 5.0);
 
   renderer = new THREE.WebGLRenderer();
@@ -153,7 +154,7 @@ var init = function()
     var b = Math.floor(Math.random()*255);
     var rgb = "rgb(" + r + ", " + g + ", " + b + ")";
     var sphere = CreateSphere(0.1, boids[i].pos, {color: rgb});
-    //var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff}); 
+    //var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff});
     scene_object.push(sphere);
     scene.add(sphere);
   }
