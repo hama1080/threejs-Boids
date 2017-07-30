@@ -14,6 +14,7 @@ The object move towards the average heading of flock.
 ## Screenshot
 
 ## Usage
+Open index.html on your browser.  
 
 ## Link
 Boids: [wikipedia](https://en.wikipedia.org/wiki/Boids)   
