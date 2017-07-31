@@ -12,6 +12,21 @@ class Boids{
       }
     }
   }
+
+  // rule0: a boid move to center of boids.
+  BoidRule0(move_index)
+  {
+  }
+
+  // rule1: a boid keep the constant distance between the other boid.
+  BoidRule1(move_index)
+  {
+  }
+
+  // rule2: a boid keep his velocity to mean velocity of boids
+  BoidRule2(move_index)
+  {
+  }
 }
 
 var scene;
