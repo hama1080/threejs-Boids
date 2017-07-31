@@ -35,11 +35,40 @@ class Boids{
   // rule1: a boid keep the constant distance between the other boid.
   BoidRule1(move_index)
   {
+    const kDistanceMin = 0.1;
+    for(var i=0; i != this.boids.length; i++)
+    {
+      if(i != move_index)
+      {
+        var distance = this.boids[i].pos.distanceTo(this.boids[move_index].pos);
+        if(distance < kDistanceMin)
+        {
+          var diff = new THREE.Vector3();
+          diff.subVectors(this.boids[i].pos, this.boids[move_index].pos)
+          this.boids[move_index].vel.sub(diff);
+        }
+      }
+    }
+
   }
 
   // rule2: a boid keep his velocity to mean velocity of boids
   BoidRule2(move_index)
   {
+    var mean_velocity = new THREE.Vector3(0);
+    for(var i = 0; i != this.boids.length; i++)
+    {
+      if(i != move_index)
+      {
+        mean_velocity.add(this.boids[i].vel);
+      }
+    }
+    const kDivisionNum = 10.0;
+    mean_velocity.divideScalar(this.boids.length - 1);
+    var diff = new THREE.Vector3();
+    diff.subVectors(mean_velocity, this.boids[move_index].vel);
+    diff.divideScalar(kDivisionNum);
+    this.boids[move_index].vel.add(diff);
   }
 }
 
