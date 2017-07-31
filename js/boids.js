@@ -16,6 +16,20 @@ class Boids{
   // rule0: a boid move to center of boids.
   BoidRule0(move_index)
   {
+    var center = new THREE.Vector3(0);
+    for(var i=0; i != this.boids.length; i++)
+    {
+      if(i != move_index)
+        center.add(this.boids[i].pos);
+    }
+    center.divideScalar(this.boids.length - 1)
+
+    // calculate offset using center position.
+    const kDivisionNum = 100.0;
+    center.sub(this.boids[move_index].pos);
+    center.divideScalar(kDivisionNum);
+
+    this.boids[move_index].vel.add(center);
   }
 
   // rule1: a boid keep the constant distance between the other boid.
