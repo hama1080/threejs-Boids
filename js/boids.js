@@ -1,10 +1,7 @@
 class Boids{
-  constructor(){
+  constructor(NbBoids, MaxPosition){
     this.boids = [];
-
-    const MaxPosition = new THREE.Vector3(10.0, 10.0, 5.0);
-    const kNbBoids = 30;
-    for(var i = 0; i != kNbBoids; i++)
+    for(var i = 0; i != NbBoids; i++)
     {
       this.boids[i] ={
         pos: new THREE.Vector3(Math.random() * MaxPosition.x, Math.random() * MaxPosition.y, Math.random() * MaxPosition.z),
