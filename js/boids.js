@@ -195,8 +195,9 @@ var CreateBox = function(x, y, z, position, color = {color: 0xffff00})
 
 var init = function()
 {
-  var boids_inst = new Boids();
+  const kNbBoids = 30;
   const kMaxPosition = new THREE.Vector3(10.0, 10.0, 5.0);
+  var boids_inst = new Boids(kNbBoids, kMaxPosition);
 
   renderer = new THREE.WebGLRenderer();
 
@@ -214,29 +215,29 @@ var init = function()
   scene.add(light);
   light.position.set(1,1,1);
 
-  InitializeBoids(kMaxPosition);
-  for(var i = 0; i != boids.length; i++)
+  for(var i = 0; i != boids_inst.boids.length; i++)
   {
     var r = Math.floor(Math.random()*255);
     var g = Math.floor(Math.random()*255);
     var b = Math.floor(Math.random()*255);
     var rgb = "rgb(" + r + ", " + g + ", " + b + ")";
-    var sphere = CreateSphere(0.1, boids[i].pos, {color: rgb});
+    var sphere = CreateSphere(0.1, boids_inst.boids[i].pos, {color: rgb});
     //var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff});
     scene_object.push(sphere);
     scene.add(sphere);
   }
+
   onWindowResize();
 
   //simulation loop
   var update = function(){
     requestAnimationFrame(update);
-    MoveObjects(boids, kMaxPosition);
-    for(var i = 0; i != boids.length; i++)
+    boids_inst.MoveObjects(kMaxPosition);
+    for(var i = 0; i != boids_inst.boids.length; i++)
     {
-      scene_object[i].position.x = boids[i].pos.x;
-      scene_object[i].position.y = boids[i].pos.y;
-      scene_object[i].position.z = boids[i].pos.z;
+      scene_object[i].position.x = boids_inst.boids[i].pos.x;
+      scene_object[i].position.y = boids_inst.boids[i].pos.y;
+      scene_object[i].position.z = boids_inst.boids[i].pos.z;
     }
     renderer.render(scene,camera);
   }
