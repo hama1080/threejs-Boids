@@ -67,110 +67,40 @@ class Boids{
     diff.divideScalar(kDivisionNum);
     this.boids[move_index].vel.add(diff);
   }
+
+  MoveObjects(kMaxPosition)
+  {
+    for(var i = 0; i != this.boids.length; i++)
+    {
+      this.BoidRule0(i);
+      this.BoidRule1(i);
+      this.BoidRule2(i);
+
+      //Limit speed
+      var boid = this.boids[i];
+      var speed = boid.vel.length();
+      const kMaxSpeed = 0.5;
+      if(speed > kMaxSpeed)
+      {
+          var r = kMaxSpeed / speed;
+          boid.vel.multiplyScalar(r);
+      }
+      // Inverse velocity when out of screen.
+      if( (this.boids[i].pos.x < 0 && this.boids[i].vel.x < 0) || (this.boids[i].pos.x > kMaxPosition.x && this.boids[i].vel.x > 0))
+        this.boids[i].vel.x *= -1;
+      if( (this.boids[i].pos.y < 0 && this.boids[i].vel.y < 0) || (this.boids[i].pos.y > kMaxPosition.y && this.boids[i].vel.y > 0))
+        this.boids[i].vel.y *= -1;
+      if( (this.boids[i].pos.z < 0 && this.boids[i].vel.z < 0) || (this.boids[i].pos.z > kMaxPosition.z && this.boids[i].vel.z > 0))
+        this.boids[i].vel.z *= -1;
+
+      this.boids[i].pos.add(this.boids[i].vel);
+    }
+
+  }
 }
 
 var scene;
 var scene_object = [];
-var boids;
-
-// rule0: a boid move to center of boids.
-var BoidRule0 = function(boids, move_index)
-{
-  var center = new THREE.Vector3(0);
-  for(var i=0; i != boids.length; i++)
-  {
-    if(i != move_index)
-      center.add(boids[i].pos);
-  }
-  center.divideScalar(boids.length - 1)
-
-  // calculate offset using center position.
-  const kDivisionNum = 100.0;
-  center.sub(boids[move_index].pos);
-  center.divideScalar(kDivisionNum);
-
-  boids[move_index].vel.add(center);
-}
-
-// rule1: a boid keep the constant distance between the other boid.
-var BoidRule1 = function(boids, move_index)
-{
-  const kDistanceMin = 0.1;
-  for(var i=0; i != boids.length; i++)
-  {
-    if(i != move_index)
-    {
-      var distance = boids[i].pos.distanceTo(boids[move_index].pos);
-      if(distance < kDistanceMin)
-      {
-        var diff = new THREE.Vector3();
-        diff.subVectors(boids[i].pos, boids[move_index].pos)
-        boids[move_index].vel.sub(diff);
-      }
-    }
-  }
-}
-
-// rule2: a boid keep his velocity to mean velocity of boids
-var BoidRule2 = function(boids, move_index)
-{
-  var mean_velocity = new THREE.Vector3(0);
-  for(var i = 0; i != boids.length; i++)
-  {
-    if(i != move_index)
-    {
-      mean_velocity.add(boids[i].vel);
-    }
-  }
-  const kDivisionNum = 10.0;
-  mean_velocity.divideScalar(boids.length - 1);
-  var diff = new THREE.Vector3();
-  diff.subVectors(mean_velocity, boids[move_index].vel);
-  diff.divideScalar(kDivisionNum);
-  boids[move_index].vel.add(diff);
-}
-
-var InitializeBoids = function(MaxPosition)
-{
-  const kNbBoids = 30;
-  boids = [];
-  for(var i = 0; i != kNbBoids; i++)
-  {
-    boids[i] ={
-      pos: new THREE.Vector3(Math.random() * MaxPosition.x, Math.random() * MaxPosition.y, Math.random() * MaxPosition.z),
-      vel: new THREE.Vector3(0, 0, 0)
-    }
-  }
-}
-
-var MoveObjects = function(boids, kMaxPosition)
-{
-  for(var i = 0; i != boids.length; i++)
-  {
-    BoidRule0(boids, i);
-    BoidRule1(boids, i);
-    BoidRule2(boids, i);
-
-    //Limit speed
-    var boid = boids[i];
-    var speed = boid.vel.length();
-    const kMaxSpeed = 0.5;
-    if(speed > kMaxSpeed)
-    {
-        var r = kMaxSpeed / speed;
-        boid.vel.multiplyScalar(r);
-    }
-    // Inverse velocity when out of screen.
-    if( (boids[i].pos.x < 0 && boids[i].vel.x < 0) || (boids[i].pos.x > kMaxPosition.x && boids[i].vel.x > 0))
-      boids[i].vel.x *= -1;
-    if( (boids[i].pos.y < 0 && boids[i].vel.y < 0) || (boids[i].pos.y > kMaxPosition.y && boids[i].vel.y > 0))
-      boids[i].vel.y *= -1;
-    if( (boids[i].pos.z < 0 && boids[i].vel.z < 0) || (boids[i].pos.z > kMaxPosition.z && boids[i].vel.z > 0))
-      boids[i].vel.z *= -1;
-
-    boids[i].pos.add(boids[i].vel);
-  }
-}
 
 var CreateSphere = function(radius, position, color = {color: 0xffff00})
 {
