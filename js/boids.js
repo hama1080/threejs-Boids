@@ -112,19 +112,22 @@ var CreateSphere = function(radius, position, color = {color: 0xffff00})
   return sphere;
 }
 
-var CreateBox = function(w, h, d, position, color = {color: 0xffff00})
+var CreateBox = function(w, h, d, pos_x, pos_y, pos_z, color = {color: 0xffff00})
 {
   var geometry = new THREE.BoxGeometry(w, h, d);
-  var material = new THREE.MeshPhongMaterial(color);
+  var material = new THREE.MeshBasicMaterial({
+    color: 0xff0000,
+    wireframe: true
+});
   var box = new THREE.Mesh(geometry, material);
-  box.position = position;
+  box.position.set(pos_x, pos_y, pos_z);
   return box;
 }
 
 var init = function()
 {
   const kNbBoids = 30;
-  const kMaxPosition = new THREE.Vector3(10.0, 10.0, 5.0);
+  const kMaxPosition = new THREE.Vector3(10.0, 10.0, 10.0);
   boids_inst = new Boids(kNbBoids, kMaxPosition);
 
   renderer = new THREE.WebGLRenderer();
