@@ -112,9 +112,9 @@ var CreateSphere = function(radius, position, color = {color: 0xffff00})
   return sphere;
 }
 
-var CreateBox = function(x, y, z, position, color = {color: 0xffff00})
+var CreateBox = function(w, h, d, position, color = {color: 0xffff00})
 {
-  var geometry = new THREE.BoxGeometry(x, y, z);
+  var geometry = new THREE.BoxGeometry(w, h, d);
   var material = new THREE.MeshPhongMaterial(color);
   var box = new THREE.Mesh(geometry, material);
   box.position = position;
