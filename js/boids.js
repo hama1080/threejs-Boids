@@ -101,6 +101,7 @@ class Boids{
 
 var scene;
 var scene_object = [];
+var boids_inst;
 
 var CreateSphere = function(radius, position, color = {color: 0xffff00})
 {
@@ -124,7 +125,7 @@ var init = function()
 {
   const kNbBoids = 30;
   const kMaxPosition = new THREE.Vector3(10.0, 10.0, 5.0);
-  var boids_inst = new Boids(kNbBoids, kMaxPosition);
+  boids_inst = new Boids(kNbBoids, kMaxPosition);
 
   renderer = new THREE.WebGLRenderer();
 
@@ -194,7 +195,7 @@ onWindowClick = function()
   var sphere = CreateSphere(0.1);
   scene_object.push(sphere);
   scene.add(sphere);
-  boids.push({pos: new THREE.Vector3(0, 0, 0), vel: new THREE.Vector3(0, 0, 0)});
+  boids_inst.boids.push({pos: new THREE.Vector3(0, 0, 0), vel: new THREE.Vector3(0, 0, 0)});
 }
 
 window.addEventListener('DOMContentLoaded', init);
