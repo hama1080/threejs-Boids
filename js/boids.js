@@ -138,10 +138,10 @@ var init = function()
   container = document.getElementById("container");
   container.appendChild(renderer.domElement);
 
-  var center = new THREE.Vector3(0);
+  var center = new THREE.Vector3(kMaxPosition.x / 2, kMaxPosition.y / 2, kMaxPosition.z / 2);
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
-  camera.position.set(30, 30, 0);
+  camera.position.set(20, 20, 20);
   camera.lookAt(center);
 
   var light = new THREE.DirectionalLight(0xffffff);
@@ -161,7 +161,7 @@ var init = function()
   }
 
   var center_box = new THREE.Vector3(0,0,0);
-  var box = CreateBox(kMaxPosition.x, kMaxPosition.y, kMaxPosition.z, 0, 0, 5);
+  var box = CreateBox(kMaxPosition.x, kMaxPosition.y, kMaxPosition.z, center.x, center.y, center.z);
   scene.add(box);
 
   onWindowResize();
