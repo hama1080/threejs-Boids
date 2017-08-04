@@ -18,3 +18,5 @@ Open index.html on your browser.
 
 ## Link
 Boids: [wikipedia](https://en.wikipedia.org/wiki/Boids)   
+three.js: https://threejs.org/
+
