@@ -167,8 +167,8 @@ var init = function()
   onWindowResize();
 
   //simulation loop
-  var update = function(){
-    requestAnimationFrame(update);
+  var SimulationLoop = function(){
+    requestAnimationFrame(SimulationLoop);
     boids_inst.MoveObjects(kMaxPosition);
     for(var i = 0; i != boids_inst.boids.length; i++)
     {
@@ -178,7 +178,7 @@ var init = function()
     }
     renderer.render(scene,camera);
   }
-  update();
+  SimulationLoop();
 }
 
 // full screen: reference: http://www.inazumatv.com/contents/archives/8484
