@@ -11,10 +11,13 @@ The object avoid other object.
 *Rule3:Alignment*
 The object move towards the average heading of flock.  
 
+This project is the imprementation of Boids on three.js.  
+
 ## Screenshot
 
 ## Usage
 Open index.html on your browser.  
+We only check the operation of this program on google chrome.  
 
 ## Link
 Boids: [wikipedia](https://en.wikipedia.org/wiki/Boids)   
