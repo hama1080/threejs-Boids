@@ -112,13 +112,11 @@ var CreateSphere = function(radius, position, color = {color: 0xffff00})
   return sphere;
 }
 
-var CreateBox = function(w, h, d, pos_x, pos_y, pos_z, color = {color: 0xffff00})
+var CreateBox = function(w, h, d, pos_x, pos_y, pos_z, color = {color: 0x00ffff})
 {
   var box_geometry = new THREE.BoxGeometry(w, h, d);
   var geometry = new THREE.EdgesGeometry(box_geometry);
-  var material = new THREE.LineBasicMaterial({
-    color: 0xff0000,
-    linewidth: 2});
+  var material = new THREE.LineBasicMaterial(color);
   var box = new THREE.LineSegments(geometry, material);
   box.position.set(pos_x, pos_y, pos_z);
   return box;
