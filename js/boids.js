@@ -139,7 +139,9 @@ var init = function()
   var center = new THREE.Vector3(kMaxPosition.x / 2, kMaxPosition.y / 2, kMaxPosition.z / 2);
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(45, 1.0, 1, 1000);
-  camera.position.set(20, 20, 20);
+  const kCameraRadius = 30;
+  const kCameraY = 20;
+  camera.position.set(kCameraRadius, kCameraY, kCameraRadius);
   camera.lookAt(center);
 
   var light = new THREE.DirectionalLight(0xffffff);
@@ -153,7 +155,7 @@ var init = function()
     var b = Math.floor(Math.random()*255);
     var rgb = "rgb(" + r + ", " + g + ", " + b + ")";
     var sphere = CreateSphere(0.1, boids_inst.boids[i].pos, {color: rgb});
-    //var sphere = CreateSphere(0.1, boids[i].pos, {color: 0x00ffff});
+    //var sphere = CreateSphere(0.1, boids_inst.boids[i].pos, {color: 0x00ffff});
     scene_object.push(sphere);
     scene.add(sphere);
   }
@@ -165,6 +167,7 @@ var init = function()
   onWindowResize();
 
   //simulation loop
+  var theta = 0;
   var SimulationLoop = function(){
     requestAnimationFrame(SimulationLoop);
     boids_inst.MoveObjects(kMaxPosition);
@@ -174,6 +177,11 @@ var init = function()
       scene_object[i].position.y = boids_inst.boids[i].pos.y;
       scene_object[i].position.z = boids_inst.boids[i].pos.z;
     }
+    var camera_x = kCameraRadius * Math.cos(theta);
+    var camera_z = kCameraRadius * Math.sin(theta);
+    camera.position.set(camera_x, kCameraY, camera_z);
+    camera.lookAt(center);
+    theta += 0.01;
     renderer.render(scene,camera);
   }
   SimulationLoop();
