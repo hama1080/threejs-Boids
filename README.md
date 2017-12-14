@@ -14,6 +14,7 @@ The object move towards the average heading of flock.
 This project is the imprementation of Boids on three.js.  
 
 ## Screenshot
+![screenshot](https://github.com/hmhm903/threejs-Boids/blob/master/screenshot.png) 
 
 ## Usage
 Open index.html on your browser.  
